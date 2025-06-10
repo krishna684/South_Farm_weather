@@ -11,7 +11,8 @@
   "scripts": {
     "start": "react-scripts start",
     "test": "echo \"No tests configured\"",
-    "build": "react-scripts build"
+    "build": "react-scripts build && rm -rf frontend/build && cp -r build frontend/build"
+
   },
   "proxy": "http://localhost:5000",
   "eslintConfig": {
