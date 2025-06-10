@@ -1,38 +1,46 @@
 .App {
+  font-family: sans-serif;
+  padding: 1rem;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.card-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.sensor-card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  width: 160px;
+  background: #fafafa;
+  text-align: left;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.sensor-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.sensor-name {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.sensor-value {
+  font-weight: bold;
+  margin: 0.25rem 0;
+}
+
+.sensor-time {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.error {
+  color: red;
+  margin-top: 1rem;
 }
