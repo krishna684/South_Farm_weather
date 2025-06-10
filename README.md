@@ -4,10 +4,11 @@ This project contains a small Flask API that proxies data from the ZENTRA Cloud 
 
 ## Setup
 
-1. Install Python dependencies (Flask and python-dotenv). Optionally install `flask-cors` if running the frontend separately.
+1. Install Python dependencies from `requirements.txt`:
 
 ```bash
-pip install flask python-dotenv flask-cors
+pip install -r requirements.txt
+
 ```
 
 2. Copy `.env.example` to `.env` and fill in your `ZENTRA_API_TOKEN` and `ZENTRA_DEVICE_SN`.
