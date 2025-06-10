@@ -5,13 +5,10 @@ function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-
   // Fetch sensor data on mount and every 30 seconds
   useEffect(() => {
     const fetchData = () => {
       fetch("/api/live")
-
         .then((res) => {
           if (!res.ok) {
             throw new Error("Network response was not ok");
@@ -25,7 +22,8 @@ function App() {
         })
         .catch((err) => {
           console.error("API Error:", err);
-          setError("Failed to load data");
+          setError(`Failed to load data: ${err.message}`);
+
           setLoading(false);
         });
     };
@@ -38,7 +36,6 @@ function App() {
   return (
     <div className="App">
       <h1>ATMOS 41 Live Data</h1>
-
       {loading && <p>Loading...</p>}
       {error && <p className="error">{error}</p>}
       {!loading && !error && (
