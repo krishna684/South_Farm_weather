@@ -6,6 +6,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
   // Fetch sensor data on mount and every 30 seconds
   useEffect(() => {
     const fetchData = () => {

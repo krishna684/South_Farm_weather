@@ -8,6 +8,7 @@ This project contains a small Flask API that proxies data from the ZENTRA Cloud 
 
 ```bash
 pip install -r requirements.txt
+
 ```
 
 2. Copy `.env.example` to `.env` and fill in your `ZENTRA_API_TOKEN` and `ZENTRA_DEVICE_SN`.
