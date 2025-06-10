@@ -1,10 +1,12 @@
 import os
 import requests
 from flask import Flask, jsonify
+from flask_cors import CORS
 from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask(__name__)
+CORS(app)
 
 API_TOKEN = os.getenv("ZENTRA_API_TOKEN")
 DEVICE_SN = os.getenv("ZENTRA_DEVICE_SN")
