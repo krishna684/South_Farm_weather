@@ -5,15 +5,22 @@ function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+
   // Fetch sensor data on mount and every 30 seconds
   useEffect(() => {
     const fetchData = () => {
       fetch("/api/live")
-        .then((res) => {
+        .then(async (res) => {
+          const data = await res
+            .json()
+            .catch(() => ({}));
           if (!res.ok) {
-            throw new Error("Network response was not ok");
+            const message = data.error || res.statusText;
+            throw new Error(message);
           }
-          return res.json();
+          return data;
+
         })
         .then((json) => {
           setData(json);
