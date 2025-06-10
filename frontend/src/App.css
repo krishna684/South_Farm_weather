@@ -3,9 +3,24 @@
   padding: 1rem;
 }
 
-.sensor-table {
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-top: 1rem;
-  border-collapse: collapse;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 1rem;
+  width: 200px;
+}
+
+.value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
 }
 
 .error {
