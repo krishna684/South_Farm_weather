@@ -5,7 +5,6 @@ function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   // Fetch sensor data on mount and every 30 seconds
   useEffect(() => {
     const fetchData = () => {
@@ -24,6 +23,7 @@ function App() {
         .catch((err) => {
           console.error("API Error:", err);
           setError(`Failed to load data: ${err.message}`);
+
           setLoading(false);
         });
     };
@@ -39,6 +39,7 @@ function App() {
       {loading && <p>Loading...</p>}
       {error && <p className="error">{error}</p>}
       {!loading && !error && (
+
         <div className="card-container">
           {data.map((reading, idx) => (
             <div className="sensor-card" key={idx}>
