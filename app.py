@@ -1,23 +1,36 @@
 import os
 import requests
 from flask import Flask, jsonify
+from flask_cors import CORS
 from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask(__name__)
+CORS(app)
 
 API_TOKEN = os.getenv("ZENTRA_API_TOKEN")
 DEVICE_SN = os.getenv("ZENTRA_DEVICE_SN")
 BASE_URL = "https://zentracloud.com/api/v4/get_readings/"
 
 TARGET_SENSORS = [
-    "Air Temperature", "Relative Humidity", "Barometric Pressure", "Vapor Pressure",
-    "Wind Speed", "Wind Direction", "Precipitation", "Solar Radiation",
-    "Lightning Strikes", "Tilt Sensor"
+    "Air Temperature",
+    "Relative Humidity",
+    "Barometric Pressure",
+    "Vapor Pressure",
+    "Wind Speed",
+    "Wind Direction",
+    "Precipitation",
+    "Solar Radiation",
+    "Lightning Strikes",
+    "Tilt Sensor",
 ]
+
 
 @app.route('/api/live')
 def get_atmos41_data():
+    if not API_TOKEN or not DEVICE_SN:
+        return jsonify({"error": "Missing API credentials"}), 500
+
     headers = {
         "Authorization": API_TOKEN
     }
@@ -35,7 +48,11 @@ def get_atmos41_data():
 
         filtered_data = []
         for parameter, sensors in raw_data.items():
-            if any(target.lower() in parameter.lower() for target in TARGET_SENSORS):
+            matches_target = any(
+                target.lower() in parameter.lower()
+                for target in TARGET_SENSORS
+            )
+            if matches_target:
                 for sensor in sensors:
                     metadata = sensor.get("metadata", {})
                     for reading in sensor.get("readings", []):
@@ -51,6 +68,7 @@ def get_atmos41_data():
 
     except requests.exceptions.RequestException as e:
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True)
