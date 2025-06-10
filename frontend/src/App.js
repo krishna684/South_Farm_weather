@@ -1,63 +1,49 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [sensorData, setSensorData] = useState([]);
   const [error, setError] = useState(null);
 
-
-  // Fetch sensor data on mount and every 30 seconds
   useEffect(() => {
-    const fetchData = () => {
-      fetch("/api/live")
-        .then(async (res) => {
-          const data = await res
-            .json()
-            .catch(() => ({}));
-          if (!res.ok) {
-            const message = data.error || res.statusText;
-            throw new Error(message);
-          }
-          return data;
-        })
-        .then((json) => {
-          setData(json);
-          setLoading(false);
-          setError(null);
-        })
-        .catch((err) => {
-          console.error("API Error:", err);
-          setError(`Failed to load data: ${err.message}`);
-          setLoading(false);
-        });
-    };
-
-    fetchData();
-    const id = setInterval(fetchData, 30000);
-    return () => clearInterval(id);
+    fetch("/api/live")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load data");
+        return res.json();
+      })
+      .then((data) => setSensorData(data))
+      .catch((err) => setError(err.message));
   }, []);
 
   return (
     <div className="App">
-      <h1>ATMOS 41 Live Data</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p className="error">{error}</p>}
-      {!loading && !error && (
-        <div className="card-container">
-          {data.map((reading, idx) => (
-            <div className="sensor-card" key={idx}>
-              <h3>{reading.parameter}</h3>
-              <p className="sensor-name">{reading.sensor}</p>
-              <p className="sensor-value">
-                {reading.value} {reading.units}
-              </p>
-              <p className="sensor-time">
-                {new Date(reading.datetime).toLocaleString()}
-              </p>
-            </div>
-          ))}
-        </div>
+      <h1>ATMOS41 Live Sensor Dashboard</h1>
+      {error && <p className="error">Error: {error}</p>}
+      {sensorData.length === 0 ? (
+        <p>Loading...</p>
+      ) : (
+        <table className="sensor-table" border="1" cellPadding="8">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Value</th>
+              <th>Units</th>
+              <th>Sensor</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sensorData.map((item, index) => (
+              <tr key={index}>
+                <td>{item.parameter}</td>
+                <td>{item.value}</td>
+                <td>{item.units}</td>
+                <td>{item.sensor}</td>
+                <td>{new Date(item.datetime).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );
